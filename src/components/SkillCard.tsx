@@ -1,20 +1,32 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
     TouchableOpacity,
     Text,
     StyleSheet,
-    TouchableOpacityProps
+    TouchableOpacityProps,
+    GestureResponderEvent
 } from 'react-native';
 
 interface SkillCardProps extends TouchableOpacityProps {
-    skill: string
+    skill: string;
+    onExclude: () => void;
 }
 
-export default function SkillCard({ skill, ...rest }: SkillCardProps) {
+export default function SkillCard({ skill, onExclude, ...rest }: SkillCardProps) {
+    const [exclude, setExclude] = useState(false);
+
+    const handleExclude = () => {
+        if (exclude) {
+            onExclude();
+        } else {
+            setExclude(!exclude);
+        }
+    }
+
     return (
-        <TouchableOpacity style={styles.buttonSkill} {...rest}>
+        <TouchableOpacity style={[styles.buttonSkill, { backgroundColor: exclude ? 'red' : '#1F1E25' }]} onPress={handleExclude} {...rest}>
             <Text style={styles.textSkill}>
-                {skill}
+                {exclude ? 'Click again to confirm.' : skill}
             </Text>
         </TouchableOpacity>
     )

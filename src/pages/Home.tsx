@@ -19,6 +19,9 @@ export function Home() {
     const [newSkill, setNewSkill] = useState('');
     const [mySkills, setMySkills] = useState<MySkillsProps[]>([]);
     const [greeting, setGreeting] = useState('');
+    const [dateTime, setDateTime] = useState(new Date().toLocaleString('pt-br'));
+
+    setTimeout(() => setDateTime(new Date().toLocaleString('pt-br')), 1000);
 
     const handleNewAddSkill = () => {
         if (newSkill) {
@@ -48,9 +51,9 @@ export function Home() {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>Welcome, Paulo</Text>
+            <Text style={styles.title}>Welcome</Text>
             <Text style={styles.greetings}>
-                {greeting}
+                {greeting} - {dateTime}
             </Text>
             <TextInput
                 style={styles.input}
@@ -69,7 +72,7 @@ export function Home() {
                 data={mySkills}
                 keyExtractor={item => item.id}
                 renderItem={({ item }) => (
-                    <SkillCard skill={item.name} onPress={() => { console.log('teste'); handleRemoveSkill(item.id) }} />
+                    <SkillCard skill={item.name} onExclude={() => handleRemoveSkill(item.id)} />
                 )}
             />
         </View>
